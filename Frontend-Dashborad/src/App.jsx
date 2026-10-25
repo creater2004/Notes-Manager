@@ -7,6 +7,70 @@ import DashboardHeader from "./components/DashboardHeader";
 import NoteForm from "./components/NoteForm";
 import NotesSection from "./components/NotesSection";
 
+function DashboardPage({
+  user,
+  onLogout,
+  message,
+  title,
+  setTitle,
+  content,
+  setContent,
+  category,
+  setCategory,
+  editingId,
+  loading,
+  onSaveNote,
+  onCancelEdit,
+  visibleNotes,
+  search,
+  setSearch,
+  filter,
+  setFilter,
+  onEditNote,
+  onDeleteNote,
+}) {
+  return (
+    <main className="dashboard">
+      <DashboardHeader user={user} onLogout={onLogout} />
+
+      <section className="welcome">
+        <p className="eyebrow">YOUR PERSONAL WORKSPACE</p>
+        <h1>My Notes</h1>
+        <p>Create, organize and manage your notes in one place.</p>
+      </section>
+
+      {message && <div className="message dashboard-message">{message}</div>}
+
+      <NoteForm
+        title={title}
+        setTitle={setTitle}
+        content={content}
+        setContent={setContent}
+        category={category}
+        setCategory={setCategory}
+        editingId={editingId}
+        loading={loading}
+        onSubmit={onSaveNote}
+        onCancel={onCancelEdit}
+      />
+
+      <NotesSection
+        visibleNotes={visibleNotes}
+        search={search}
+        setSearch={setSearch}
+        filter={filter}
+        setFilter={setFilter}
+        onEdit={onEditNote}
+        onDelete={onDeleteNote}
+      />
+
+      <footer className="footer">
+        Notes Manager · Built with React, Express and MongoDB
+      </footer>
+    </main>
+  );
+}
+
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -165,49 +229,6 @@ function App() {
     return matchesSearch && matchesCategory;
   });
 
-  function DashboardPage() {
-    return (
-      <main className="dashboard">
-        <DashboardHeader user={user} onLogout={logout} />
-
-        <section className="welcome">
-          <p className="eyebrow">YOUR PERSONAL WORKSPACE</p>
-          <h1>My Notes</h1>
-          <p>Create, organize and manage your notes in one place.</p>
-        </section>
-
-        {message && <div className="message dashboard-message">{message}</div>}
-
-        <NoteForm
-          title={title}
-          setTitle={setTitle}
-          content={content}
-          setContent={setContent}
-          category={category}
-          setCategory={setCategory}
-          editingId={editingId}
-          loading={loading}
-          onSubmit={saveNote}
-          onCancel={cancelEdit}
-        />
-
-        <NotesSection
-          visibleNotes={visibleNotes}
-          search={search}
-          setSearch={setSearch}
-          filter={filter}
-          setFilter={setFilter}
-          onEdit={editNote}
-          onDelete={deleteNote}
-        />
-
-        <footer className="footer">
-          Notes Manager · Built with React, Express and MongoDB
-        </footer>
-      </main>
-    );
-  }
-
   return (
     <Routes>
       <Route
@@ -264,7 +285,34 @@ function App() {
       />
       <Route
         path="/dashboard"
-        element={token && user ? <DashboardPage /> : <Navigate to="/login" replace />}
+        element={
+          token && user ? (
+            <DashboardPage
+              user={user}
+              onLogout={logout}
+              message={message}
+              title={title}
+              setTitle={setTitle}
+              content={content}
+              setContent={setContent}
+              category={category}
+              setCategory={setCategory}
+              editingId={editingId}
+              loading={loading}
+              onSaveNote={saveNote}
+              onCancelEdit={cancelEdit}
+              visibleNotes={visibleNotes}
+              search={search}
+              setSearch={setSearch}
+              filter={filter}
+              setFilter={setFilter}
+              onEditNote={editNote}
+              onDeleteNote={deleteNote}
+            />
+          ) : (
+            <Navigate to="/login" replace />
+          )
+        }
       />
     </Routes>
   );
