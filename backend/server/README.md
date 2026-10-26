@@ -13,7 +13,7 @@ Simple Express and MongoDB Atlas backend for the Notes Manager frontend.
    npm run dev
    ```
 
-The backend is in `server.js`. It listens on `http://localhost:5000` by default. Use `npm start` to run without watch mode.
+The backend entrypoint is `server.js`; the Express app, database connection, models, authentication middleware, and API routes are separated into `app.js` and `src/`. It listens on `http://localhost:5000` by default. Use `npm start` to run without watch mode.
 
 ## Endpoints
 
